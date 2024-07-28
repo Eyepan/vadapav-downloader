@@ -1,4 +1,4 @@
-# Movie Downloader Script
+# Vadapav downloader script
 
 This script is designed to scrape and download series episodes from a specified movie site. It supports downloading using either `wget` or `aria2c`.
 
