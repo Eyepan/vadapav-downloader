@@ -59,4 +59,4 @@ def download_with_aria2c(link):
     :param link: URL of the file to download
     """
     logging.info(f"Downloading with aria2c: {link}")
-    subprocess.run(['aria2c', '-x16', '-s16', link, '--file-allocation=none'])
+    subprocess.run(['aria2c', '-x4', link, '--file-allocation=none', '-c', '--auto-file-renaming=false'])
