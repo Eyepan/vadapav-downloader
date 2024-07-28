@@ -62,7 +62,9 @@ def download_files(data: List[dict], use_aria):
     download_list = []
     for file in data:
         if not os.path.isfile(file["details"]["filename"]):
-            download_list.append(file["url"])
+            download_list.append(
+                {"link": file["url"], "filename": file["details"]["filename"]}
+            )
         else:
             logging.info(
                 f"Found {file['details']['filename']} in disk. Skipping download"
@@ -70,9 +72,9 @@ def download_files(data: List[dict], use_aria):
 
     for link in download_list:
         if use_aria:
-            handlers.download_with_aria2c(link)
+            handlers.download_with_aria2c(link["link"], link["filename"])
         else:
-            handlers.download_with_wget(link)
+            handlers.download_with_wget(link["link"], link["filename"])
 
 
 def main():

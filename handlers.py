@@ -76,26 +76,28 @@ def extract_all_downloadable_links_from_season_link(
     ]
 
 
-def download_with_wget(link):
+def download_with_wget(link: str, filename: str):
     """
     Downloads a file using wget.
 
     :param link: URL of the file to download
     """
     logging.info(f"Downloading with wget: {link}")
-    subprocess.run(["wget", "--content-disposition", "--trust-server-names", link])
+    subprocess.run(["wget", link, "-Otemp"])
+    os.rename("temp", filename)
 
 
-def download_with_aria2c(link):
+def download_with_aria2c(link: str, filename: str):
     """
     Downloads a file using aria2c.
 
     :param link: URL of the file to download
     """
     logging.info(f"Downloading with aria2c: {link}")
-    subprocess.run(["aria2c", "-x4", link, "--file-allocation=none"])
+    subprocess.run(["aria2c", "-x4", link, "--file-allocation=none", "-o temp"])
+    os.rename("temp", filename)
 
 
-def download_file_with_aria2c(filename: str):
-    logging.info(f"Downloading with aria2c: {filename}")
-    subprocess.run(["aria2c", "-x4", f"-i {filename}", "--file-allocation=none", "-j1"])
+def download_file_with_aria2c(link: str, filename: str):
+    logging.info(f"Downloading with aria2c: {link}")
+    subprocess.run(["aria2c", "-x4", f"-i {link}", "--file-allocation=none", "-j1"])
