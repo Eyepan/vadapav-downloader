@@ -24,6 +24,7 @@ def main():
     parser.add_argument('show_link', type=str, help="URL of the show")
     parser.add_argument('--aria', action='store_true', help="Use aria2c for downloading")
     parser.add_argument('--bypass', action='store_true', help="Bypass the saved links file and rescrape all links manually")
+    parser.add_argument('--dry-run', action='store_true', help="Just fetches the file links, doesn't download anything")
     args = parser.parse_args()
 
     show_link = args.show_link
@@ -38,6 +39,9 @@ def main():
             links = handlers.extract_all_downloadable_links_from_season_link(season)
             file_links.extend(links)
         write_links_to_file(LINKS_FILE, file_links)
+
+    if args.dry_run:
+        return
 
     if args.aria:
         handlers.download_file_with_aria2c(LINKS_FILE)

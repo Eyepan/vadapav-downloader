@@ -1,4 +1,6 @@
 import os
+import re
+from typing import List
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
@@ -8,6 +10,15 @@ import subprocess
 BASE_URL = "https://vadapav.mov"
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def extract_episode(filename):
+    # Regular expression pattern to match the season and episode
+    pattern = re.compile(r'S\d{2}E\d{2}')
+    match = pattern.search(filename)
+    if match:
+        return match.group()
+    else:
+        return None
 
 def extract_all_season_links_from_series(series_link: str):
     """
@@ -23,10 +34,11 @@ def extract_all_season_links_from_series(series_link: str):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     season_links = soup.find_all('a', class_='directory-entry')
+    season_links.pop(0)
     logging.info(f"Found {len(season_links)} season links")
     return [urljoin(BASE_URL, link.get('href')) for link in season_links]
 
-def extract_all_downloadable_links_from_season_link(season_link: str):
+def extract_all_downloadable_links_from_season_link(season_link: str) -> List[str]:
     """
     Extracts all downloadable file links from the given season link.
     
@@ -40,8 +52,14 @@ def extract_all_downloadable_links_from_season_link(season_link: str):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     file_links = soup.find_all('a', class_='file-entry')
+    file_links.pop(0)
     logging.info(f"Found {len(file_links)} file links")
-    return [urljoin(BASE_URL, link.get('href')) for link in file_links]
+    output = []
+    for link in file_links:
+        url = urljoin(BASE_URL, link.get('href'))
+        details = extract_episode(link.text)
+        output.append(f"{url} # {details}")
+    return output
 
 def download_with_wget(link):
     """
