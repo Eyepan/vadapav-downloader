@@ -25,9 +25,9 @@ Usage
 2. Ensure you have wget or aria2c installed on your system.
 3. Run the script with the following command:
 
-```sh
-usage: main.py [-h] [--aria] [--bypass] [--dry-run] show_link
 ```
+usage: main.py [-h] [--aria] [--bypass] [--dry-run] show_link
+
 Download series episodes
 
 positional arguments:
@@ -38,7 +38,9 @@ options:
   --aria      Use aria2c for downloading
   --bypass    Bypass the saved links file and rescrape all links manually
   --dry-run   Just fetches the file links, doesn't download anything
-Example
+```
+
+### Example
 To download episodes using aria2c:
 
 ```sh
