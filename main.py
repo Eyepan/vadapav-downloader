@@ -39,10 +39,10 @@ def main():
             file_links.extend(links)
         write_links_to_file(LINKS_FILE, file_links)
 
-    for file in file_links:
-        if args.aria:
-            handlers.download_with_aria2c(file)
-        else:
+    if args.aria:
+        handlers.download_file_with_aria2c(LINKS_FILE)
+    else:
+        for file in file_links:
             handlers.download_with_wget(file)
 
 if __name__ == "__main__":

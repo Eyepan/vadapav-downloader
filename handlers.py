@@ -60,3 +60,7 @@ def download_with_aria2c(link):
     """
     logging.info(f"Downloading with aria2c: {link}")
     subprocess.run(['aria2c', '-x4', link, '--file-allocation=none', '-c', '--auto-file-renaming=false', '--allow-overwrite=false'])
+
+def download_file_with_aria2c(filename: str):
+    logging.info(f"Downloading with aria2c: {filename}")
+    subprocess.run(['aria2c', '-x4', f'-i={filename}', '--file-allocation=none', '-c', '--auto-file-renaming=false', '--allow-overwrite=false'])
