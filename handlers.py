@@ -99,5 +99,6 @@ def download_with_aria2c(link: str, filename: str):
 
 
 def download_file_with_aria2c(link: str, filename: str):
-    logging.info(f"Downloading with aria2c: {link}")
+    logging.info(f"Downloading with aria2c: {filename} {link}")
     subprocess.run(["aria2c", "-x4", f"-i {link}", "--file-allocation=none", "-j1"])
+    logging.info(f"Downloaded with aria2c: {filename} {link}")
