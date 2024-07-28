@@ -64,12 +64,12 @@ def extract_all_downloadable_links_from_season_link(
     logging.info(f"Found {len(file_links)} file links")
     return [
         {
-            "url": urljoin(BASE_URL, link.find('a').get("href")),
+            "url": urljoin(BASE_URL, link.find("a").get("href")),
             "details": {
-                "episode": extract_episode(link.find('a').text),
-                "show": link.find('a').text.split(".")[0],
-                "filename": link.find('a').text,
-                "size": link.find('div', class_='size-div').text
+                "episode": extract_episode(link.find("a").text),
+                "show": link.find("a").text.split(".")[0],
+                "filename": link.find("a").text,
+                "size": link.find("div", class_="size-div").text,
             },
         }
         for link in file_links

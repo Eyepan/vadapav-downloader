@@ -44,7 +44,7 @@ def parse_arguments():
 def fetch_links(show_link, bypass):
     if os.path.isfile(LINKS_FILE) and not bypass:
         print(
-            "Found link files from a previous run. Skipping link scraping and moving directly to downloading"
+            f"Found {LINKS_FILE} from a previous run. Skipping link scraping and moving directly to downloading"
         )
         return read_links_from_file(LINKS_FILE)
     else:
@@ -58,11 +58,21 @@ def fetch_links(show_link, bypass):
 
 
 def download_files(data: List[dict], use_aria):
+    # check if to-be downloadded files exist in disk
+    download_list = []
     for file in data:
-        if use_aria:
-            handlers.download_with_aria2c(file["url"])
+        if not os.path.isfile(file["details"]["filename"]):
+            download_list.append(file["url"])
         else:
-            handlers.download_with_wget(file["url"])
+            logging.info(
+                f"Found {file['details']['filename']} in disk. Skipping download"
+            )
+
+    for link in download_list:
+        if use_aria:
+            handlers.download_with_aria2c(link)
+        else:
+            handlers.download_with_wget(link)
 
 
 def main():
