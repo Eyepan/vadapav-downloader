@@ -26,23 +26,29 @@ Usage
 3. Run the script with the following command:
 
 ```sh
-python downloader.py <show_link> [--aria] [--bypass]
+usage: main.py [-h] [--aria] [--bypass] [--dry-run] show_link
 ```
-- <show_link>: URL of the series.
-- --aria: Use aria2c for downloading (optional).
-- --bypass: Bypass the saved links file and rescrape all links manually (optional).
+Download series episodes
 
+positional arguments:
+  show_link   URL of the show
+
+options:
+  -h, --help  show this help message and exit
+  --aria      Use aria2c for downloading
+  --bypass    Bypass the saved links file and rescrape all links manually
+  --dry-run   Just fetches the file links, doesn't download anything
 Example
 To download episodes using aria2c:
 
 ```sh
-python downloader.py https://example.com/show_link --aria
+python main.py https://example.com/show_link --aria
 ```
 
 To download episodes using wget and rescrape all links:
 
 ```sh
-python downloader.py https://example.com/show_link --bypass
+python main.py https://example.com/show_link --bypass
 ```
 
 ## Disclaimer
